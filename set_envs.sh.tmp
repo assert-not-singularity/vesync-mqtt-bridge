@@ -1,0 +1,12 @@
+#!/bin/bash
+
+export MQTT_HOST="hostname"
+export MQTT_PORT=1883
+export MQTT_USER="username"
+export MQTT_PASS="password"
+export MQTT_ROOT_TOPIC="mqtt/topic"
+
+export VESYNC_USER="username"
+export VESYNC_PASS="password"
+
+export TZ="Europe/Berlin"
