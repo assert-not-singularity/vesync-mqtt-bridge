@@ -1,0 +1,36 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    if: github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Docker Setup Buildx
+        uses: docker/setup-buildx-action@v1.1.1
+
+      - name: Build image
+        run: docker build . --file Dockerfile --tag vesync-mqtt-bridge
+
+      - name: Docker Hub Login
+        uses: docker/login-action@v1.8.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v2.3.0
+        with:
+          tags: keinewal/vesync-mqtt-bridge:latest
+          push: true
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
